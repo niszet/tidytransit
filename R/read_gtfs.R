@@ -171,6 +171,7 @@ read_files <- function(filename, temp_dir, quiet) {
     full_dt <- data.table::fread(
       file_path,
       colClasses = "character",
+      encoding = "UTF-8",
       showProgress = !quiet)
     
 
@@ -180,7 +181,7 @@ read_files <- function(filename, temp_dir, quiet) {
     # read first row to know what columns to read
 
     sample_dt <- suppressWarnings(
-      data.table::fread(file.path(temp_dir, filename), nrows = 1)
+      data.table::fread(file.path(temp_dir, filename), nrows = 1, encoding = "UTF-8")
     )
 
     # if file is completely empty (without even a header) return NULL data.table
@@ -205,7 +206,7 @@ read_files <- function(filename, temp_dir, quiet) {
     names(col_classes)[is.na(names(col_classes))] <- extra_col
 
     full_dt <- tryCatch(
-      data.table::fread(file.path(temp_dir, filename), select = col_classes),
+      data.table::fread(file.path(temp_dir, filename), select = col_classes, encoding = "UTF-8"),
       warning = function(w) w
     )
 
